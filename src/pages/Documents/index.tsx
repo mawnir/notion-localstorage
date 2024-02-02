@@ -4,6 +4,7 @@ import "../../index.css";
 import SideBarNotion from "@/components/NotionComps/SideBarNotion";
 
 import Page from "../Home/page";
+import SearchCommand from "@/components/NotionComps/SearchCommand";
 
 export default function Documents() {
 
@@ -12,7 +13,7 @@ export default function Documents() {
 
             <SideBarNotion />
             <main className="flex-1 h-full overflow-y-auto">
-                {/* <SearchCommand /> */}
+                <SearchCommand />
                 <Page />
             </main>
 

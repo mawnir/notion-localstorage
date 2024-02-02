@@ -12,6 +12,7 @@ import { useSimpleTree } from "@/lib/use-simple-tree";
 import { noteType } from "@/type";
 import { nanoid } from "nanoid";
 import { Navbar } from "./Navbar";
+import { useSearch } from "@/hooks/use-search";
 
 const SideBarNotion = () => {
 
@@ -21,6 +22,8 @@ const SideBarNotion = () => {
   const navbarRef = useRef<ElementRef<"div">>(null);
   const [isCollapsed, setIsCollapsed] = useState(isMobile);
   const isResizingRef = useRef(false);
+  const search = useSearch();
+
   var Element = Scroll.Element;
 
   const { id, storetodos, setStoreTodos, setId } = useNoteStore();
@@ -134,7 +137,7 @@ const SideBarNotion = () => {
             label="Search"
             icon={Search}
             isSearch
-          //onClick={search.onOpen}
+            onClick={search.onOpen}
           />
           <Item
             label="Settings"
@@ -192,7 +195,7 @@ const SideBarNotion = () => {
       <div
         ref={navbarRef}
         className={cn(
-          "absolute top-0 z-[99999] left-60 w-[calc(100%-240px)]",
+          "absolute top-0   left-60 w-[calc(100%-240px)]",
           isResetting && "transition-all ease-in-out duration-300",
           isMobile && "left-0 w-full"
         )}
