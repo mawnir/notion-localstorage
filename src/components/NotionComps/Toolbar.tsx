@@ -50,7 +50,7 @@ const Toolbar = () => {
             setValue(myTodo?.name);
         }
 
-        console.log("val", id, myTodo?.name);
+        //console.log("val", id, myTodo?.name);
 
     }, [id]);
 
