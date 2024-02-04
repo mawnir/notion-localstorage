@@ -3,6 +3,7 @@ import useNoteStore from "@/hooks/use-notes";
 import { updateTodoById } from "@/lib/DBTools";
 import { useEffect, useState } from "react";
 import { Tiptap } from "@/components/tiptap";
+import EmptyPage from "./EmptyPage";
 
 const Page = () => {
 
@@ -38,21 +39,19 @@ const Page = () => {
     }, [id]);
 
     return (
-        <div className="pb-40">
-            <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
-                {!isEmpty ?
-                    <div>
-                        <Toolbar />
-                        <Tiptap
-                            tipDefault={id ? (value ? value : "") : emptyNote}
-                            setDescription={onChange} />
-                    </div>
-                    :
-                    <div>
-                        empty
-                    </div>
-                }
-            </div>
+        <div className=" h-full">
+
+            {!isEmpty ?
+                <div className="pb-40 md:max-w-3xl lg:max-w-4xl mx-auto">
+                    <Toolbar />
+                    <Tiptap
+                        tipDefault={id ? (value ? value : "") : emptyNote}
+                        setDescription={onChange} />
+                </div>
+                :
+                <EmptyPage />
+            }
+
 
         </div>
     );
