@@ -1,14 +1,22 @@
 import useNoteStore from "@/hooks/use-notes";
 import { useSimpleTree } from "@/lib/use-simple-tree";
 import { noteType } from "@/type";
-import { useEffect, useState } from "react";
+import { useEffect, MouseEvent, useState, useRef } from "react";
 import { CursorProps, NodeApi, NodeRendererProps, Tree, TreeApi } from "react-arborist";
 import { FillFlexParent } from "../TreeBarComps/FillFlexParent";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronRight, MoreHorizontal, Plus, Trash } from "lucide-react";
 import { IconPicker } from "../IconPicker";
 import clsx from "clsx";
 import styles from "../TreeBarComps/treebar.module.css";
 import { cn } from "@/lib/utils";
+import {
+    DropdownMenu,
+    DropdownMenuTrigger,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator
+} from "@/components/ui/dropdown-menu";
+import { log } from "console";
 
 const DocumentList = () => {
 
@@ -28,8 +36,30 @@ const DocumentList = () => {
     }, [data]);
 
     useEffect(() => {
-        setData(storetodos);
-    }, [storetodos]);
+        if (id === '') {
+            setData(storetodos.filter(item => !item.isArchived));
+        }
+    }, [id]); // this effect runs only once when id is initially set to ''
+
+    useEffect(() => {
+        if (!areArraysEqual(storetodos, data) && id !== '') {
+            setData(storetodos.filter(item => !item.isArchived));
+        }
+    }, [storetodos, id]); // this effect runs whenever storetodos or id change
+
+    // useEffect(() => {
+    //     console.log("sttttt");
+    //     if (!areArraysEqual(storetodos, data) || id === '') {
+    //         setData(storetodos.filter(item => item.isArchived === false));
+    //     }
+    // }, [storetodos, id]);
+
+    const areArraysEqual = (arr1: noteType[], arr2: noteType[]): boolean => {
+        return (
+            arr1.length === arr2.length &&
+            arr1.every((value, index) => value === arr2[index])
+        );
+    };
 
     return (
         <div className="h-96">
@@ -73,20 +103,26 @@ function Node({ node, style, dragHandle }: NodeRendererProps<noteType>) {
 
     const { setId } = useNoteStore();
 
-    function openNote() {
+    const openNote = () => {
         node.isInternal && node.toggle();
-        setId(node.data.id)
+        setId(node.data.id);
     }
 
     const onIconSelect = async (icon: string) => {
         node.data.icon = icon
     };
 
+    const onArchive = (e: MouseEvent<HTMLDivElement>): void => {
+        e.stopPropagation();
+        node.data.isArchived = true;
+        setId('');
+    };
+
     return (
         <div
             ref={dragHandle}
             style={style}
-            className={clsx(styles.node, node.state)}
+            className={clsx(styles.node, node.state, "group")}
             onClick={openNote}
         >
             <FolderArrow node={node} />
@@ -98,7 +134,41 @@ function Node({ node, style, dragHandle }: NodeRendererProps<noteType>) {
             </IconPicker>
 
             <span>{node.isEditing ? <Input node={node} /> : node.data.name}</span>
-            {/* <span>{node.data.unread === 0 ? null : node.data.unread}</span> */}
+            <div className="ml-auto flex items-center gap-x-2 mr-3">
+                <DropdownMenu>
+                    <DropdownMenuTrigger
+                        onClick={(e) => e.stopPropagation()}
+                        asChild >
+                        <div
+                            role="button"
+                            className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600" >
+                            <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
+                        </div>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                        className="w-60"
+                        align="start"
+                        side="right"
+                        forceMount >
+                        <DropdownMenuItem
+                            onClick={onArchive} >
+                            <Trash className="h-4 w-4 mr-2" />
+                            Delete
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <div className="text-xs text-muted-foreground p-2">
+                            Last edited by: Mawn Trud
+                        </div>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+                <div
+                    role="button"
+                    // onClick={onCreate}
+                    className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"
+                >
+                    <Plus className="h-4 w-4 text-muted-foreground" />
+                </div>
+            </div>
         </div>
     );
 }

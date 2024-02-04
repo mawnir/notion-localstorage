@@ -6,9 +6,10 @@ import { Tiptap } from "@/components/tiptap";
 
 const Page = () => {
 
-    const { id, findTodoById, storetodos, setStoreTodos } = useNoteStore();
+    const { id, setId, findTodoById, storetodos, setStoreTodos } = useNoteStore();
     const myTodo = findTodoById(id);
     const [value, setValue] = useState(myTodo?.body);
+    const [isEmpty, setisEmpty] = useState(false);
 
     const onChange = async (content: any) => {
         const payload = {
@@ -24,17 +25,35 @@ const Page = () => {
     const emptyNote = '<h1 dir="ltr">Create or select your Page!</h1>';
 
     useEffect(() => {
-        setValue(myTodo?.body);
+
+        if (id === undefined || id === '') {
+            setisEmpty(true);
+            console.log("1=>", isEmpty, id);
+        } else {
+            setisEmpty(false);
+            setValue(myTodo?.body);
+            console.log("2=>", isEmpty, id);
+        }
+        console.log("fin semp", isEmpty, id);
     }, [id]);
 
     return (
         <div className="pb-40">
             <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
-                <Toolbar />
-                <Tiptap
-                    tipDefault={id ? (value ? value : "") : emptyNote}
-                    setDescription={onChange} />
+                {!isEmpty ?
+                    <div>
+                        <Toolbar />
+                        <Tiptap
+                            tipDefault={id ? (value ? value : "") : emptyNote}
+                            setDescription={onChange} />
+                    </div>
+                    :
+                    <div>
+                        empty
+                    </div>
+                }
             </div>
+
         </div>
     );
 }
