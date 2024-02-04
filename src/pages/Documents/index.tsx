@@ -3,8 +3,8 @@ import "../../index.css";
 
 import SideBarNotion from "@/components/NotionComps/SideBarNotion";
 
-import Page from "../Home/page";
 import SearchCommand from "@/components/NotionComps/SearchCommand";
+import Page from "./page";
 
 export default function Documents() {
 
