@@ -139,8 +139,8 @@ function Node({ node, style, dragHandle }: NodeRendererProps<noteType>) {
             ref={dragHandle}
             style={style}
             className={clsx(styles.node, node.state, "group")}
-            onClick={openNote}
-        >
+            onClick={openNote}>
+
             <FolderArrow node={node} />
 
             <IconPicker onChange={onIconSelect}>
@@ -150,6 +150,7 @@ function Node({ node, style, dragHandle }: NodeRendererProps<noteType>) {
             </IconPicker>
 
             <span>{node.isEditing ? <Input node={node} /> : node.data.name}</span>
+
             <div className="ml-auto flex items-center gap-x-2 mr-3">
                 <DropdownMenu>
                     <DropdownMenuTrigger
@@ -180,8 +181,7 @@ function Node({ node, style, dragHandle }: NodeRendererProps<noteType>) {
                 <div
                     role="button"
                     onClick={onCreate}
-                    className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"
-                >
+                    className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600" >
                     <Plus className="h-4 w-4 text-muted-foreground" />
                 </div>
             </div>
@@ -206,7 +206,13 @@ function Input({ node }: { node: NodeApi<noteType> }) {
 }
 
 function FolderArrow({ node }: { node: NodeApi<noteType> }) {
+
     if (node.isLeaf) return <span></span>;
+
+    if (node.children?.length === 0) {
+        return <span></span>
+    }
+
     return (
         <span>
             {node.isOpen ? <ChevronDown /> : <ChevronRight />}
