@@ -17,6 +17,8 @@ import {
     DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
 import { log } from "console";
+import { nanoid } from "nanoid";
+import { filterNonArchivedTodos } from "@/lib/DBTools";
 
 const DocumentList = () => {
 
@@ -37,22 +39,15 @@ const DocumentList = () => {
 
     useEffect(() => {
         if (id === '') {
-            setData(storetodos.filter(item => !item.isArchived));
+            setData(filterNonArchivedTodos(storetodos))
         }
-    }, [id]); // this effect runs only once when id is initially set to ''
+    }, [id]);
 
     useEffect(() => {
         if (!areArraysEqual(storetodos, data) && id !== '') {
-            setData(storetodos.filter(item => !item.isArchived));
+            setData(filterNonArchivedTodos(storetodos))
         }
     }, [storetodos, id]); // this effect runs whenever storetodos or id change
-
-    // useEffect(() => {
-    //     console.log("sttttt");
-    //     if (!areArraysEqual(storetodos, data) || id === '') {
-    //         setData(storetodos.filter(item => item.isArchived === false));
-    //     }
-    // }, [storetodos, id]);
 
     const areArraysEqual = (arr1: noteType[], arr2: noteType[]): boolean => {
         return (
@@ -118,6 +113,27 @@ function Node({ node, style, dragHandle }: NodeRendererProps<noteType>) {
         setId('');
     };
 
+    const onCreate = (e: MouseEvent<HTMLDivElement>): void => {
+        e.stopPropagation();
+
+        const newFolder: noteType = {
+            id: nanoid(),
+            name: "Untitled",
+            body: "",
+            // readOnly: false,
+            icon: "📄",
+            isFavorite: false,
+            isArchived: false,
+            children: []
+        };
+
+        node.data.children?.push(newFolder);
+
+        //setData(() => [newFolder, ...storetodos]);
+        setId(newFolder.id);
+
+    };
+
     return (
         <div
             ref={dragHandle}
@@ -163,7 +179,7 @@ function Node({ node, style, dragHandle }: NodeRendererProps<noteType>) {
                 </DropdownMenu>
                 <div
                     role="button"
-                    // onClick={onCreate}
+                    onClick={onCreate}
                     className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"
                 >
                     <Plus className="h-4 w-4 text-muted-foreground" />

@@ -26,16 +26,12 @@ const Page = () => {
     const emptyNote = '<h1 dir="ltr">Create or select your Page!</h1>';
 
     useEffect(() => {
-
         if (id === undefined || id === '') {
             setisEmpty(true);
-            console.log("1=>", isEmpty, id);
         } else {
             setisEmpty(false);
             setValue(myTodo?.body);
-            console.log("2=>", isEmpty, id);
         }
-        console.log("fin semp", isEmpty, id);
     }, [id]);
 
     return (

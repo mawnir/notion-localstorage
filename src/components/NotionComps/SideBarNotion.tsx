@@ -13,6 +13,7 @@ import { noteType } from "@/type";
 import { nanoid } from "nanoid";
 import { Navbar } from "./Navbar";
 import { useSearch } from "@/hooks/use-search";
+import TrashBox from "./TrashBox";
 
 const SideBarNotion = () => {
 
@@ -179,7 +180,7 @@ const SideBarNotion = () => {
                 className="p-0 w-72"
                 side={isMobile ? "bottom" : "right"}
               >
-                {/* <TrashBox /> */}
+                <TrashBox />
               </PopoverContent>
             </Popover>
           </div>

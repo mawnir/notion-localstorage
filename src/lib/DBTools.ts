@@ -1,3 +1,4 @@
+import { noteType } from "@/type";
 
 
 export function updateTodoById(testData: any[], id: string, updatedFields: any): boolean {
@@ -21,4 +22,18 @@ export function updateTodoById(testData: any[], id: string, updatedFields: any):
     }
 
     return false; // Return false if the ID is not found in the testData array
+}
+
+export function filterNonArchivedTodos(todos: noteType[]): noteType[] {
+
+    let data: noteType[] = [];
+    for (const item of todos) {
+        if (!item.isArchived) {
+            data.push({
+                ...item,
+                children: filterNonArchivedTodos(item.children || [])  // Recursively filter children
+            });
+        }
+    }
+    return data;
 }
