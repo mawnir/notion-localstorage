@@ -16,7 +16,7 @@ import { updateTodoById } from "@/lib/DBTools";
 const Menu = () => {
 
     const { toggleRTL } = useRTL();
-    const { id, storetodos, setStoreTodos } = useNoteStore();
+    const { id, data, setData } = useNoteStore();
 
 
     const onArchive = async () => {
@@ -25,9 +25,9 @@ const Menu = () => {
             //   name: 'A whole new description.',
         };
 
-        const updated = updateTodoById(storetodos, id, payload);
+        const updated = updateTodoById(data, id, payload);
         if (updated) {
-            setStoreTodos(storetodos);
+            setData(data);
         }
     }
 

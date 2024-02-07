@@ -9,8 +9,8 @@ import { useEffect } from "react";
 
 const EmptyPage = () => {
 
-    const { id, storetodos, setStoreTodos, setId } = useNoteStore();
-    const [data, setData] = useSimpleTree<noteType>(storetodos);
+    const { id, setId } = useNoteStore();
+    const [data, setData] = useSimpleTree<noteType>([]);
 
     const onCreate = async () => {
         const newFolder = {
@@ -23,12 +23,12 @@ const EmptyPage = () => {
             isArchived: false,
             children: []
         };
-        setData(() => [newFolder, ...storetodos]);
+        setData([newFolder, ...data]);
         setId(newFolder.id);
     }
 
     useEffect(() => {
-        setStoreTodos(data);
+        setData(data);
         console.log(data);
     }, [data]);
 

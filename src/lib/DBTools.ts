@@ -1,4 +1,29 @@
+import useNoteStore from "@/hooks/use-notes";
 import { noteType } from "@/type";
+
+export function findTodoById(id: string) {
+    const { data } = useNoteStore(); // Importing storetodos here
+    const stack: noteType[] = [...data];
+
+    while (stack.length > 0) {
+        const currentTodo = stack.pop();
+
+        if (!currentTodo) {
+            continue;
+        }
+
+        if (currentTodo.id === id) {
+            return currentTodo;
+        }
+
+        if (currentTodo.children) {
+            stack.push(...currentTodo.children);
+        }
+    }
+
+    return undefined;
+
+}
 
 
 export function updateTodoById(testData: any[], id: string, updatedFields: any): boolean {
@@ -35,5 +60,24 @@ export function filterNonArchivedTodos(todos: noteType[]): noteType[] {
             });
         }
     }
+    return data;
+}
+
+export function filterArchivedTodos(todos: noteType[]): noteType[] {
+    let data: noteType[] = [];
+
+    for (const item of todos) {
+        if (item.isArchived) {
+            data.push({ ...item });
+        }
+    }
+
+    // Recursively filter children
+    for (const item of todos) {
+        if (item.children && item.children.length > 0) {
+            data = data.concat(filterArchivedTodos(item.children));
+        }
+    }
+
     return data;
 }

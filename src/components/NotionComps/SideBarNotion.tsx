@@ -27,8 +27,8 @@ const SideBarNotion = () => {
 
   var Element = Scroll.Element;
 
-  const { id, storetodos, setStoreTodos, setId } = useNoteStore();
-  const [data, setData] = useSimpleTree<noteType>(storetodos);
+  const { id, data, setData, setId } = useNoteStore();
+  //const [data, setData] = useSimpleTree<noteType>(storetodos);
 
   const collapse = () => {
     if (sidebarRef.current && navbarRef.current) {
@@ -101,12 +101,12 @@ const SideBarNotion = () => {
       isArchived: false,
       children: []
     };
-    setData(() => [newFolder, ...storetodos]);
+    setData([newFolder, ...data]);
     setId(newFolder.id);
   }
 
   useEffect(() => {
-    setStoreTodos(data);
+    setData(data);
     console.log(data);
   }, [data]);
 

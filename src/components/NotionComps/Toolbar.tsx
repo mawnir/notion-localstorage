@@ -2,12 +2,12 @@ import useNoteStore from "@/hooks/use-notes";
 import { IconPicker } from "../IconPicker";
 import TextareaAutosize from "react-textarea-autosize";
 import { ElementRef, useEffect, useRef, useState } from "react";
-import { updateTodoById } from "@/lib/DBTools";
+import { findTodoById, updateTodoById } from "@/lib/DBTools";
 
 const Toolbar = () => {
     const inputRef = useRef<ElementRef<"textarea">>(null);
 
-    const { id, findTodoById, storetodos, setStoreTodos } = useNoteStore();
+    const { id, data, setData } = useNoteStore();
     const myTodo = findTodoById(id);
     const [value, setValue] = useState(myTodo?.name);
 
@@ -16,9 +16,9 @@ const Toolbar = () => {
             icon: icon,
         };
 
-        const updated = updateTodoById(storetodos, id, payload);
+        const updated = updateTodoById(data, id, payload);
         if (updated) {
-            setStoreTodos(storetodos);
+            setData(data);
         }
     };
 
@@ -28,9 +28,9 @@ const Toolbar = () => {
             name: value,
         };
 
-        const updated = updateTodoById(storetodos, id, payload);
+        const updated = updateTodoById(data, id, payload);
         if (updated) {
-            setStoreTodos(storetodos);
+            setData(data);
         }
     };
 

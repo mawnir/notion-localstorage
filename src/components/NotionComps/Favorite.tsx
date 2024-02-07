@@ -1,11 +1,11 @@
 import { Button } from "../ui/button";
 import { Star } from "lucide-react";
 import useNoteStore from "@/hooks/use-notes";
-import { updateTodoById } from "@/lib/DBTools";
+import { findTodoById, updateTodoById } from "@/lib/DBTools";
 
 const Favorite = () => {
 
-    const { id, findTodoById, storetodos, setStoreTodos } = useNoteStore();
+    const { id, data, setData } = useNoteStore();
 
     const myTodo = findTodoById(id);
 
@@ -15,9 +15,9 @@ const Favorite = () => {
             //   name: 'A whole new description.',
         };
 
-        const updated = updateTodoById(storetodos, id, payload);
+        const updated = updateTodoById(data, id, payload);
         if (updated) {
-            setStoreTodos(storetodos);
+            setData(data);
         }
     }
 

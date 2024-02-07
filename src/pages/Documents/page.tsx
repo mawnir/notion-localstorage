@@ -1,13 +1,13 @@
 import Toolbar from "@/components/NotionComps/Toolbar";
 import useNoteStore from "@/hooks/use-notes";
-import { updateTodoById } from "@/lib/DBTools";
+import { findTodoById, updateTodoById } from "@/lib/DBTools";
 import { useEffect, useState } from "react";
 import { Tiptap } from "@/components/tiptap";
 import EmptyPage from "./EmptyPage";
 
 const Page = () => {
 
-    const { id, setId, findTodoById, storetodos, setStoreTodos } = useNoteStore();
+    const { id, setId, data, setData } = useNoteStore();
     const myTodo = findTodoById(id);
     const [value, setValue] = useState(myTodo?.body);
     const [isEmpty, setisEmpty] = useState(false);
@@ -16,9 +16,9 @@ const Page = () => {
         const payload = {
             body: content,
         };
-        const updated = updateTodoById(storetodos, id, payload);
+        const updated = updateTodoById(data, id, payload);
         if (updated) {
-            setStoreTodos(storetodos);
+            setData(data);
         }
         setValue(myTodo?.body);
     };

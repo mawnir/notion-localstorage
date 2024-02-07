@@ -7,6 +7,8 @@ import {
     RenameHandler,
 } from "./handlers";
 import { SimpleTree } from "react-arborist";
+import { noteType } from "@/type";
+import useNoteStore from "@/hooks/use-notes";
 //import { IdObj } from "../types/utils";
 
 export type SimpleTreeData = {
@@ -17,8 +19,9 @@ export type SimpleTreeData = {
 
 let nextId = 0;
 
-export function useSimpleTree<T>(initialData: T[]) {  //readonly T[]
-    const [data, setData] = useState(initialData);
+export function useSimpleTree<T extends noteType>(initialData: readonly T[]) {
+
+    const { data, setData } = useNoteStore(); // Access data and setData from your Zustand store
     const tree = useMemo(
         () =>
             new SimpleTree<// @ts-ignore

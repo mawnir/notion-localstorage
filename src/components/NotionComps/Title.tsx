@@ -1,9 +1,10 @@
 import useNoteStore from "@/hooks/use-notes";
 import { Skeleton } from "../ui/skeleton";
+import { findTodoById } from "@/lib/DBTools";
 
 const Title = () => {
 
-    const { id, findTodoById } = useNoteStore();
+    const { id } = useNoteStore();
 
     const myTodo = findTodoById(id);
     return (

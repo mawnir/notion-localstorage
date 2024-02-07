@@ -20,7 +20,7 @@ const SearchCommand = () => {
     const toggle = useSearch((store) => store.toggle);
     const isOpen = useSearch((store) => store.isOpen);
     const onClose = useSearch((store) => store.onClose);
-    const { id, storetodos, setStoreTodos, setId } = useNoteStore();
+    const { id, data, setId } = useNoteStore();
 
     useEffect(() => {
         setIsMounted(true);
@@ -29,14 +29,14 @@ const SearchCommand = () => {
     useEffect(() => {
         const fetchDocs = async () => {
 
-            if (!storetodos) {
+            if (!data) {
                 //console.log(sdata);
                 //toast.error('Failed to create a new note.')
                 setSearchDocs(null);
             }
-            if (storetodos) {
+            if (data) {
                 //console.log(sdata);
-                setSearchDocs(storetodos);
+                setSearchDocs(data);
             }
         };
         fetchDocs();

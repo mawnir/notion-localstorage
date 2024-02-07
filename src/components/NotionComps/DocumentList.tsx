@@ -22,9 +22,9 @@ import { filterNonArchivedTodos } from "@/lib/DBTools";
 
 const DocumentList = () => {
 
-    const { id, storetodos, setStoreTodos } = useNoteStore();
+    const { id } = useNoteStore();
 
-    const [data, setData, controller] = useSimpleTree<noteType>(storetodos);
+    const [data, setData, controller] = useSimpleTree<noteType>([]);
 
     const [term, setTerm] = useState("");
 
@@ -34,20 +34,20 @@ const DocumentList = () => {
     };
 
     useEffect(() => {
-        setStoreTodos(data);
+        //setData(data);
     }, [data]);
 
     useEffect(() => {
-        if (id === '') {
-            setData(filterNonArchivedTodos(storetodos))
-        }
+        //if (id === '') {
+        // setData(filterNonArchivedTodos(storetodos))
+        //}
     }, [id]);
 
-    useEffect(() => {
-        if (!areArraysEqual(storetodos, data) && id !== '') {
-            setData(filterNonArchivedTodos(storetodos))
-        }
-    }, [storetodos, id]); // this effect runs whenever storetodos or id change
+    // useEffect(() => {
+    //     if (!areArraysEqual(storetodos, data) && id !== '') {
+    //         setData(filterNonArchivedTodos(storetodos))
+    //     }
+    // }, [storetodos, id]);  
 
     const areArraysEqual = (arr1: noteType[], arr2: noteType[]): boolean => {
         return (

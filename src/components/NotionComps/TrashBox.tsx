@@ -3,15 +3,22 @@ import { Input } from "../ui/input";
 import { useState } from "react";
 import { noteType } from "@/type";
 import { ConfirmModal } from "../modals/ConfirmModal";
+import { filterArchivedTodos } from "@/lib/DBTools";
+import useNoteStore from "@/hooks/use-notes";
 
 
 const TrashBox = () => {
 
+    const { id, storetodos, setStoreTodos } = useNoteStore();
+
     const [search, setSearch] = useState("");
 
-    const data: noteType[] = [];
+    const data: noteType[] = filterArchivedTodos(storetodos);
+
+    console.log("storetodos", storetodos);
+
     const filteredDocuments = data?.filter((data: any) => {
-        return data.title.toLowerCase().includes(search.toLowerCase());
+        return data.name.toLowerCase().includes(search.toLowerCase());
     });
 
     const onClick = (documentId: string) => {
