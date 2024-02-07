@@ -2,7 +2,7 @@ import useNoteStore from "@/hooks/use-notes";
 import { noteType } from "@/type";
 
 export function findTodoById(id: string) {
-    const { data } = useNoteStore(); // Importing storetodos here
+    const { data } = useNoteStore();
     const stack: noteType[] = [...data];
 
     while (stack.length > 0) {
@@ -20,11 +20,8 @@ export function findTodoById(id: string) {
             stack.push(...currentTodo.children);
         }
     }
-
     return undefined;
-
 }
-
 
 export function updateTodoById(testData: any[], id: string, updatedFields: any): boolean {
     for (const item of testData) {

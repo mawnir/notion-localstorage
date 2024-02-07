@@ -22,7 +22,7 @@ import { filterNonArchivedTodos } from "@/lib/DBTools";
 
 const DocumentList = () => {
 
-    const { id } = useNoteStore();
+    const { id, } = useNoteStore();
 
     const [data, setData, controller] = useSimpleTree<noteType>([]);
 

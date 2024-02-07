@@ -18,7 +18,6 @@ const Menu = () => {
     const { toggleRTL } = useRTL();
     const { id, data, setData } = useNoteStore();
 
-
     const onArchive = async () => {
         const payload = {
             isArchived: true,

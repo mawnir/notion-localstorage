@@ -28,7 +28,6 @@ const SideBarNotion = () => {
   var Element = Scroll.Element;
 
   const { id, data, setData, setId } = useNoteStore();
-  //const [data, setData] = useSimpleTree<noteType>(storetodos);
 
   const collapse = () => {
     if (sidebarRef.current && navbarRef.current) {
@@ -52,6 +51,7 @@ const SideBarNotion = () => {
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
   };
+
   const handleMouseMove = (event: MouseEvent) => {
     if (!isResizingRef.current) return;
     let newWidth = event.clientX;

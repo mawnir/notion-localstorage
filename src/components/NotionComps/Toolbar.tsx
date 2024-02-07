@@ -49,10 +49,11 @@ const Toolbar = () => {
         } else {
             setValue(myTodo?.name);
         }
-
-        //console.log("val", id, myTodo?.name);
-
     }, [id]);
+
+    useEffect(() => {
+        setValue(myTodo?.name);
+    }, [data]);
 
     return (
         <div className="mt-14 pl-[54px] group relative">

@@ -6,19 +6,18 @@ import { ConfirmModal } from "../modals/ConfirmModal";
 import { filterArchivedTodos } from "@/lib/DBTools";
 import useNoteStore from "@/hooks/use-notes";
 
-
 const TrashBox = () => {
 
-    const { id, storetodos, setStoreTodos } = useNoteStore();
+    const { id, data, setData } = useNoteStore();
 
     const [search, setSearch] = useState("");
 
-    const data: noteType[] = filterArchivedTodos(storetodos);
+    const dataArchived: noteType[] = filterArchivedTodos(data);
 
-    console.log("storetodos", storetodos);
+    console.log("dataArchived", dataArchived);
 
-    const filteredDocuments = data?.filter((data: any) => {
-        return data.name.toLowerCase().includes(search.toLowerCase());
+    const filteredDocuments = dataArchived?.filter((dataArchived: any) => {
+        return dataArchived.name.toLowerCase().includes(search.toLowerCase());
     });
 
     const onClick = (documentId: string) => {
