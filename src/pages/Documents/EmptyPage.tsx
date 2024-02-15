@@ -17,6 +17,7 @@ const EmptyPage = () => {
             id: nanoid(),
             name: "Untitled",
             body: "",
+            parentId: "",
             // readOnly: false,
             icon: "📄",
             isFavorite: false,
@@ -29,7 +30,7 @@ const EmptyPage = () => {
 
     useEffect(() => {
         setData(data);
-        console.log(data);
+        //console.log(data);
     }, [data]);
 
     return (

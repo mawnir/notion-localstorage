@@ -8,8 +8,6 @@ import Scroll from 'react-scroll';
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import DocumentList from "./DocumentList";
 import useNoteStore from "@/hooks/use-notes";
-import { useSimpleTree } from "@/lib/use-simple-tree";
-import { noteType } from "@/type";
 import { nanoid } from "nanoid";
 import { Navbar } from "./Navbar";
 import { useSearch } from "@/hooks/use-search";
@@ -95,7 +93,7 @@ const SideBarNotion = () => {
       id: nanoid(),
       name: "Untitled",
       body: "",
-      // readOnly: false,
+      parentId: "",
       icon: "📄",
       isFavorite: false,
       isArchived: false,
@@ -107,7 +105,7 @@ const SideBarNotion = () => {
 
   useEffect(() => {
     setData(data);
-    console.log(data);
+    // console.log(data);
   }, [data]);
 
   return (

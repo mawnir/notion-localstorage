@@ -16,7 +16,6 @@ import {
     DropdownMenuItem,
     DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
-import { log } from "console";
 import { nanoid } from "nanoid";
 import { filterNonArchivedTodos } from "@/lib/DBTools";
 
@@ -33,14 +32,18 @@ const DocumentList = () => {
         window.tree = tree;
     };
 
+
+
+
     useEffect(() => {
-        //setData(data);
+        console.log(data);
+
     }, [data]);
 
     useEffect(() => {
-        //if (id === '') {
-        // setData(filterNonArchivedTodos(storetodos))
-        //}
+        if (id === '') {
+            setData(filterNonArchivedTodos(data))
+        }
     }, [id]);
 
     // useEffect(() => {
@@ -64,7 +67,8 @@ const DocumentList = () => {
                 }}
                 className={cn(
                     "group min-h-[27px] text-xs py-1 pr-3 w-full text-gray-400 font-medium"
-                )} >
+                )}
+            >
                 Private
             </div>
             <FillFlexParent>
@@ -83,6 +87,7 @@ const DocumentList = () => {
                             searchTerm={term}
                             paddingBottom={32}
                             selection={id}
+
                         //disableEdit={(data) => data.readOnly}
                         >
                             {Node}
@@ -96,7 +101,7 @@ const DocumentList = () => {
 
 function Node({ node, style, dragHandle }: NodeRendererProps<noteType>) {
 
-    const { setId } = useNoteStore();
+    const { setId, data, setData } = useNoteStore();
 
     const openNote = () => {
         node.isInternal && node.toggle();
@@ -110,6 +115,7 @@ function Node({ node, style, dragHandle }: NodeRendererProps<noteType>) {
     const onArchive = (e: MouseEvent<HTMLDivElement>): void => {
         e.stopPropagation();
         node.data.isArchived = true;
+        // setData(data);
         setId('');
     };
 
@@ -117,6 +123,7 @@ function Node({ node, style, dragHandle }: NodeRendererProps<noteType>) {
         e.stopPropagation();
 
         const newFolder: noteType = {
+            parentId: node.data.id,
             id: nanoid(),
             name: "Untitled",
             body: "",

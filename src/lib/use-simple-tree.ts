@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react";
-//import { SimpleTree } from "../data/simple-tree";
 import {
     CreateHandler,
     DeleteHandler,
@@ -9,13 +8,7 @@ import {
 import { SimpleTree } from "react-arborist";
 import { noteType } from "@/type";
 import useNoteStore from "@/hooks/use-notes";
-//import { IdObj } from "../types/utils";
-
-export type SimpleTreeData = {
-    id: string;
-    name: string;
-    children?: SimpleTreeData[];
-};
+import { deleteObjectById, findTodoById2, pushObjectById } from "./DBTools";
 
 let nextId = 0;
 
@@ -35,9 +28,14 @@ export function useSimpleTree<T extends noteType>(initialData: readonly T[]) {
         index: number;
     }) => {
         for (const id of args.dragIds) {
-            tree.move({ id, parentId: args.parentId, index: args.index });
+            //- tree.move({ id, parentId: args.parentId, index: args.index });
+            const sdata = moveData(id, args.parentId, data, args.index);
+            if (sdata) {
+                setData(sdata)
+            }
         }
-        setData(tree.data);
+
+        //- setData(tree.data);
     };
 
     const onRename: RenameHandler<T> = ({ name, id }) => {
@@ -61,4 +59,21 @@ export function useSimpleTree<T extends noteType>(initialData: readonly T[]) {
     const controller = { onMove, onRename, onCreate, onDelete };
 
     return [data, setData, controller] as const;
+}
+
+function moveData(id: string, parentId: string | null, data: noteType[], index: number) {
+
+    console.log(id, parentId, index);
+
+    const clonedData = JSON.parse(JSON.stringify(data));
+
+    const movedObject = findTodoById2(id, data);
+
+    if (!movedObject) return;
+
+    const jh = deleteObjectById(id, clonedData);
+    const d3 = pushObjectById(jh ? jh : clonedData, parentId, movedObject, index);
+
+    console.log("move data: ", d3);
+    return d3 as noteType[];
 }
