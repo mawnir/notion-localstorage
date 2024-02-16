@@ -147,3 +147,20 @@ export function filterArchivedTodos(todos: noteType[]): noteType[] {
 
     return data;
 }
+
+
+export function flattenArrayWithChildren(arr: noteType[], parentId: string = ''): noteType[] {
+    let result: noteType[] = [];
+
+    for (const item of arr) {
+        result.push({ ...item });
+    }
+
+    for (const item of arr) {
+        if (item.children && item.children.length > 0) {
+            result = result.concat(flattenArrayWithChildren(item.children));
+        }
+    }
+
+    return result;
+}

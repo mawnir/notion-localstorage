@@ -11,7 +11,7 @@ import {
     CommandList
 } from "@/components/ui/command";
 import { File } from "lucide-react";
-
+import { flattenArrayWithChildren } from "@/lib/DBTools";
 
 const SearchCommand = () => {
 
@@ -26,17 +26,16 @@ const SearchCommand = () => {
         setIsMounted(true);
     }, []);
 
+    // const flattenedArray = flattenArrayWithChildren(data);
+    // console.log(flattenedArray);
+
     useEffect(() => {
         const fetchDocs = async () => {
-
             if (!data) {
-                //console.log(sdata);
-                //toast.error('Failed to create a new note.')
                 setSearchDocs(null);
             }
             if (data) {
-                //console.log(sdata);
-                setSearchDocs(data);
+                setSearchDocs(flattenArrayWithChildren(data));
             }
         };
         fetchDocs();
