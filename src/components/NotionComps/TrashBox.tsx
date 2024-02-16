@@ -8,19 +8,22 @@ import useNoteStore from "@/hooks/use-notes";
 
 const TrashBox = () => {
 
-    const { id, data, setData } = useNoteStore();
+    const { id, setId, data, setData } = useNoteStore();
 
     const [search, setSearch] = useState("");
 
     const dataArchived: noteType[] = filterArchivedTodos(data);
 
-    console.log("dataArchived", data);
+    //console.log("dataArchived", data);
 
     const filteredDocuments = dataArchived?.filter((dataArchived: any) => {
         return dataArchived.name.toLowerCase().includes(search.toLowerCase());
     });
 
     const onClick = (documentId: string) => {
+        console.log(documentId);
+        setId(documentId)
+
         // router.push(`/documents/${documentId}`);
     };
     const onRestore = async (

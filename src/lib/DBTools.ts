@@ -65,7 +65,7 @@ export function deleteObjectById(id: string, data: noteType[] | null) {
 
 export function pushObjectById(data: noteType[], parentId: string | null, objectToAdd: noteType, index: number) {
 
-    if (parentId === null) {
+    if (parentId === null || parentId === '') {
         // If parentId is empty, simply push the object at the root level
         data.splice(index, 0, objectToAdd);
         return data;

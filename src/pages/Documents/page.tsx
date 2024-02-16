@@ -4,10 +4,13 @@ import { findTodoById, updateTodoById } from "@/lib/DBTools";
 import { useEffect, useState } from "react";
 import { Tiptap } from "@/components/tiptap";
 import EmptyPage from "./EmptyPage";
+import Banner from "@/components/NotionComps/Banner";
 
 const Page = () => {
 
     const { id, setId, data, setData } = useNoteStore();
+    const isArchived = findTodoById(id)?.isArchived;
+
     const myTodo = findTodoById(id);
     const [value, setValue] = useState(myTodo?.body);
     const [isEmpty, setisEmpty] = useState(false);
@@ -36,10 +39,13 @@ const Page = () => {
 
     return (
         <div className=" h-full">
-
             {!isEmpty ?
                 <div className="pb-40 md:max-w-3xl lg:max-w-4xl mx-auto">
                     <Toolbar />
+                    {data && isArchived && (
+                        <Banner />
+                    )}
+
                     <Tiptap
                         tipDefault={id ? (value ? value : "") : emptyNote}
                         setDescription={onChange} />
