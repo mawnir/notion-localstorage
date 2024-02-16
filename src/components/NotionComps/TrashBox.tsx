@@ -3,7 +3,7 @@ import { Input } from "../ui/input";
 import { useState } from "react";
 import { noteType } from "@/type";
 import { ConfirmModal } from "../modals/ConfirmModal";
-import { filterArchivedTodos } from "@/lib/DBTools";
+import { deleteObjectById, filterArchivedTodos, updateTodoById } from "@/lib/DBTools";
 import useNoteStore from "@/hooks/use-notes";
 
 const TrashBox = () => {
@@ -21,19 +21,28 @@ const TrashBox = () => {
     });
 
     const onClick = (documentId: string) => {
-        console.log(documentId);
         setId(documentId)
-
-        // router.push(`/documents/${documentId}`);
     };
     const onRestore = async (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>,
         document: noteType,
     ) => {
+        const payload = {
+            isArchived: false,
+        };
 
+        const updated = updateTodoById(data, id, payload);
+        if (updated) {
+            setData(data);
+        }
     }
     const onRemove = async (documentId: string,) => {
+        const updatedData = deleteObjectById(documentId, data);
 
+        if (updatedData) {
+            setData(updatedData);
+            setId('')
+        }
     }
 
     return (
