@@ -74,6 +74,6 @@ function moveData(id: string, parentId: string | null, data: noteType[], index: 
     const jh = deleteObjectById(id, clonedData);
     const d3 = pushObjectById(jh ? jh : clonedData, parentId, movedObject, index);
 
-    console.log("move data: ", d3);
+    //console.log("move data: ", d3);
     return d3 as noteType[];
 }

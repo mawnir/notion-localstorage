@@ -14,7 +14,7 @@ const TrashBox = () => {
 
     const dataArchived: noteType[] = filterArchivedTodos(data);
 
-    console.log("dataArchived", dataArchived);
+    console.log("dataArchived", data);
 
     const filteredDocuments = dataArchived?.filter((dataArchived: any) => {
         return dataArchived.name.toLowerCase().includes(search.toLowerCase());

@@ -17,7 +17,7 @@ import {
     DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
 import { nanoid } from "nanoid";
-import { filterNonArchivedTodos } from "@/lib/DBTools";
+import { filterNonArchivedTodos, pushObjectById, updateTodoById } from "@/lib/DBTools";
 
 const DocumentList = () => {
 
@@ -32,9 +32,6 @@ const DocumentList = () => {
         window.tree = tree;
     };
 
-
-
-
     useEffect(() => {
         console.log(data);
 
@@ -42,22 +39,10 @@ const DocumentList = () => {
 
     useEffect(() => {
         if (id === '') {
-            setData(filterNonArchivedTodos(data))
+
+            console.log(data);
         }
     }, [id]);
-
-    // useEffect(() => {
-    //     if (!areArraysEqual(storetodos, data) && id !== '') {
-    //         setData(filterNonArchivedTodos(storetodos))
-    //     }
-    // }, [storetodos, id]);  
-
-    const areArraysEqual = (arr1: noteType[], arr2: noteType[]): boolean => {
-        return (
-            arr1.length === arr2.length &&
-            arr1.every((value, index) => value === arr2[index])
-        );
-    };
 
     return (
         <div className="h-96">
@@ -77,7 +62,7 @@ const DocumentList = () => {
                         <Tree
                             ref={globalTree}
                             //initialData={gmailData}
-                            data={data}{...controller}
+                            data={filterNonArchivedTodos(data)}{...controller}
                             rowHeight={27}
                             //width={480}
                             width={width}
@@ -109,13 +94,30 @@ function Node({ node, style, dragHandle }: NodeRendererProps<noteType>) {
     }
 
     const onIconSelect = async (icon: string) => {
-        node.data.icon = icon
+        //node.data.icon = icon;
+
+        const payload = {
+            icon: icon,
+        };
+
+        const updated = updateTodoById(data, node.data.id, payload);
+        if (updated) {
+            setData(data);
+        }
     };
 
     const onArchive = (e: MouseEvent<HTMLDivElement>): void => {
         e.stopPropagation();
-        node.data.isArchived = true;
-        // setData(data);
+        //node.data.isArchived = true;
+        const payload = {
+            isArchived: true,
+        };
+
+        const updated = updateTodoById(data, node.data.id, payload);
+        if (updated) {
+            setData(data);
+        }
+
         setId('');
     };
 
@@ -134,11 +136,13 @@ function Node({ node, style, dragHandle }: NodeRendererProps<noteType>) {
             children: []
         };
 
-        node.data.children?.push(newFolder);
+        // node.data.children?.push(newFolder);
 
-        //setData(() => [newFolder, ...storetodos]);
+        const xtad = pushObjectById(data, node.data.id, newFolder, 0);
+        if (xtad) {
+            setData(xtad)
+        }
         setId(newFolder.id);
-
     };
 
     return (
