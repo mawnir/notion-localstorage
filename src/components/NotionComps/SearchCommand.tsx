@@ -20,14 +20,11 @@ const SearchCommand = () => {
     const toggle = useSearch((store) => store.toggle);
     const isOpen = useSearch((store) => store.isOpen);
     const onClose = useSearch((store) => store.onClose);
-    const { id, data, setId } = useNoteStore();
+    const { data, setId } = useNoteStore();
 
     useEffect(() => {
         setIsMounted(true);
     }, []);
-
-    // const flattenedArray = flattenArrayWithChildren(data);
-    // console.log(flattenedArray);
 
     useEffect(() => {
         const fetchDocs = async () => {
@@ -54,7 +51,6 @@ const SearchCommand = () => {
     }, [toggle]);
 
     const onSelect = (id: string) => {
-        //router.push(`/documents/${id}`);
         setId(id)
         onClose();
     };

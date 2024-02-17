@@ -12,6 +12,7 @@ import { nanoid } from "nanoid";
 import { Navbar } from "./Navbar";
 import { useSearch } from "@/hooks/use-search";
 import TrashBox from "./TrashBox";
+import { useSettings } from "@/hooks/use-settings";
 
 const SideBarNotion = () => {
 
@@ -22,6 +23,7 @@ const SideBarNotion = () => {
   const [isCollapsed, setIsCollapsed] = useState(isMobile);
   const isResizingRef = useRef(false);
   const search = useSearch();
+  const settings = useSettings();
 
   var Element = Scroll.Element;
 
@@ -141,7 +143,7 @@ const SideBarNotion = () => {
           <Item
             label="Settings"
             icon={Settings}
-          //onClick={settings.onOpen}
+            onClick={settings.onOpen}
           />
           <Item
             onClick={handleCreate}
