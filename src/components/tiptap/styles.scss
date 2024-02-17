@@ -176,14 +176,14 @@
 
 .bubble-menu {
     display: flex;
-    background-color: #0D0D0D;
+    background-color: #ffffff;
     padding: 0.2rem;
     border-radius: 0.5rem;
 
     button {
-        border: none;
+        border: 1;
         background: none;
-        color: #FFF;
+        color: #000000;
         font-size: 0.85rem;
         font-weight: 500;
         padding: 0 0.2rem;
@@ -202,7 +202,7 @@
 
 .floating-menu {
     display: flex;
-    background-color: #0D0D0D10;
+    background-color: #c1060610;
     padding: 0.2rem;
     border-radius: 0.5rem;
 

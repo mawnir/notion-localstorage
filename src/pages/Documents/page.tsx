@@ -2,7 +2,7 @@ import Toolbar from "@/components/NotionComps/Toolbar";
 import useNoteStore from "@/hooks/use-notes";
 import { findTodoById, updateTodoById } from "@/lib/DBTools";
 import { useEffect, useState } from "react";
-import { Tiptap } from "@/components/tiptap";
+import { Tiptap } from "@/components/tiptap/tiptap";
 import EmptyPage from "./EmptyPage";
 import Banner from "@/components/NotionComps/Banner";
 
