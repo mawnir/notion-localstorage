@@ -28,12 +28,12 @@ const PopoverBox: React.FunctionComponent<PopoverBoxProps> = forwardRef(({
             onOpenChange={handleChangeOpen}
         >
             <PopoverTrigger>
-                <Toggle
+                {/* <Toggle
                     size="sm"
                     pressed={isActive}
-                >
-                    {icon}
-                </Toggle>
+                > */}
+                {icon}
+                {/* </Toggle> */}
             </PopoverTrigger>
             <PopoverContent className={classname}>
                 {children}
