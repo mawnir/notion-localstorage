@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { nanoid } from "nanoid";
 import { filterNonArchivedTodos, pushObjectById, updateTodoById } from "@/lib/DBTools";
+import { supabase } from "@/lib/supabase-client";
 
 const DocumentList = () => {
 
@@ -101,12 +102,12 @@ function Node({ node, style, dragHandle }: NodeRendererProps<noteType>) {
         };
 
         const updated = updateTodoById(data, node.data.id, payload);
-        if (updated) {
+        if (await updated) {
             setData(data);
         }
     };
 
-    const onArchive = (e: MouseEvent<HTMLDivElement>): void => {
+    const onArchive = async (e: MouseEvent<HTMLDivElement>): Promise<void> => {
         e.stopPropagation();
         //node.data.isArchived = true;
         const payload = {
@@ -114,14 +115,14 @@ function Node({ node, style, dragHandle }: NodeRendererProps<noteType>) {
         };
 
         const updated = updateTodoById(data, node.data.id, payload);
-        if (updated) {
+        if (await updated) {
             setData(data);
         }
 
         setId('');
     };
 
-    const onCreate = (e: MouseEvent<HTMLDivElement>): void => {
+    const onCreate = async (e: MouseEvent<HTMLDivElement>): Promise<void> => {
         e.stopPropagation();
 
         const newFolder: noteType = {
@@ -143,6 +144,13 @@ function Node({ node, style, dragHandle }: NodeRendererProps<noteType>) {
             setData(xtad)
         }
         setId(newFolder.id);
+
+        const { error } = await supabase.from("notion_local")
+            .insert({
+                id: newFolder.id, name: newFolder.name, icon: newFolder.icon,
+                isFavorite: newFolder.isFavorite, isArchived: newFolder.isArchived,
+                parentId: newFolder.parentId
+            });
     };
 
     return (

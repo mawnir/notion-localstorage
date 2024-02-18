@@ -13,6 +13,7 @@ import { Navbar } from "./Navbar";
 import { useSearch } from "@/hooks/use-search";
 import TrashBox from "./TrashBox";
 import { useSettings } from "@/hooks/use-settings";
+import { supabase } from "@/lib/supabase-client";
 
 const SideBarNotion = () => {
 
@@ -90,7 +91,7 @@ const SideBarNotion = () => {
     }
   };
 
-  function handleCreate() {
+  async function handleCreate() {
     const newFolder = {
       id: nanoid(),
       name: "Untitled",
@@ -103,6 +104,14 @@ const SideBarNotion = () => {
     };
     setData([newFolder, ...data]);
     setId(newFolder.id);
+
+    //const { data: mysra } = await supabase.from("notion_local").select();
+    const { error } = await supabase.from("notion_local")
+      .insert({
+        id: newFolder.id, name: newFolder.name, icon: newFolder.icon,
+        isFavorite: newFolder.isFavorite, isArchived: newFolder.isArchived
+      });
+    console.log(error);
   }
 
   useEffect(() => {

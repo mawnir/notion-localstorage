@@ -1,5 +1,6 @@
 import useNoteStore from "@/hooks/use-notes";
 import { noteType } from "@/type";
+import { supabase } from "./supabase-client";
 
 export function findTodoById(id: string) {
     const { data } = useNoteStore();
@@ -92,21 +93,28 @@ export function pushObjectById(data: noteType[], parentId: string | null, object
 }
 
 
-export function updateTodoById(testData: any[], id: string, updatedFields: any): boolean {
+export async function updateTodoById(testData: any[], id: string, updatedFields: any): Promise<boolean> {
     for (const item of testData) {
         if (item.id === id) {
-            // Update each field in the updatedFields object
+
             for (const field in updatedFields) {
                 if (updatedFields.hasOwnProperty(field)) {
                     item[field] = updatedFields[field];
                 }
             }
+
+            const { data, error } = await (supabase)
+                .from("notion_local")
+                .update(updatedFields)
+                .eq('id', id)
+                .select();
+
             return true; // Return true if the update is successful
         }
 
         // Recursively search in children if present
         if (item.children && item.children.length > 0) {
-            if (updateTodoById(item.children, id, updatedFields)) {
+            if (await updateTodoById(item.children, id, updatedFields)) {
                 return true; // Return true if the update is successful
             }
         }

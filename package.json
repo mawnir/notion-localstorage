@@ -20,6 +20,7 @@
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toggle": "^1.0.3",
+    "@supabase/supabase-js": "^2.39.6",
     "@tiptap/extension-color": "^2.2.3",
     "@tiptap/extension-highlight": "^2.2.3",
     "@tiptap/extension-link": "^2.2.3",

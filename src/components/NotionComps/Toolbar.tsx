@@ -17,7 +17,7 @@ const Toolbar = () => {
         };
 
         const updated = updateTodoById(data, id, payload);
-        if (updated) {
+        if (await updated) {
             setData(data);
         }
     };
@@ -29,7 +29,7 @@ const Toolbar = () => {
         };
 
         const updated = updateTodoById(data, id, payload);
-        if (updated) {
+        if (await updated) {
             setData(data);
         }
     };
