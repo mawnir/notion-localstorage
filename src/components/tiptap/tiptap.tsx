@@ -4,12 +4,30 @@ import StarterKit from '@tiptap/starter-kit'
 import TextDirection from "tiptap-text-direction";
 import './styles.scss';
 import { useEffect } from 'react';
+import Bubble from './bubble';
+import SlashCommand from './command';
+import Link from '@tiptap/extension-link'
+import Placeholder from "@tiptap/extension-placeholder";
+import { Color } from "@tiptap/extension-color";
+import { TextStyle } from "@tiptap/extension-text-style";
+import { Highlight } from "@tiptap/extension-highlight";
 
 export const Tiptap = ({ setDescription, tipDefault }: { setDescription: any, tipDefault: string | undefined }) => {
 
     const editor = useEditor({
         extensions: [
+            SlashCommand,
             StarterKit,
+            Link,
+            Color,
+            TextStyle,
+            Highlight.configure({
+                multicolor: true,
+            }),
+            Placeholder.configure({
+                emptyNodeClass: 'is-empty',
+                placeholder: `Press '/' to insert a command`,
+            }),
             TextDirection.configure({
                 types: ["heading", "paragraph"],
             }),
@@ -28,55 +46,12 @@ export const Tiptap = ({ setDescription, tipDefault }: { setDescription: any, ti
         }
     }, [tipDefault, editor]);
 
-
-    //BubbleMenu
-    //https://github.com/steven-tey/novel/blob/main/packages/core/src/ui/editor/bubble-menu/index.tsx
+    //Bubble and slash from https://slash.imyuanli.cn/
 
     return (
         <div className="mt-6 mx-16">
             <>
-                {editor && <BubbleMenu className="bubble-menu" tippyOptions={{ duration: 100 }} editor={editor}>
-                    <button
-                        onClick={() => editor.chain().focus().toggleBold().run()}
-                        className={editor.isActive('bold') ? 'is-active' : ''}
-                    >
-                        Bold
-                    </button>
-                    <button
-                        onClick={() => editor.chain().focus().toggleItalic().run()}
-                        className={editor.isActive('italic') ? 'is-active' : ''}
-                    >
-                        Italic
-                    </button>
-                    <button
-                        onClick={() => editor.chain().focus().toggleStrike().run()}
-                        className={editor.isActive('strike') ? 'is-active' : ''}
-                    >
-                        Strike
-                    </button>
-                </BubbleMenu>}
-
-                {editor && <FloatingMenu className="floating-menu" tippyOptions={{ duration: 100 }} editor={editor}>
-                    <button
-                        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-                        className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
-                    >
-                        H1
-                    </button>
-                    <button
-                        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-                        className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
-                    >
-                        H2
-                    </button>
-                    <button
-                        onClick={() => editor.chain().focus().toggleBulletList().run()}
-                        className={editor.isActive('bulletList') ? 'is-active' : ''}
-                    >
-                        Bullet List
-                    </button>
-                </FloatingMenu>}
-
+                <Bubble editor={editor} />
                 <EditorContent editor={editor} />
             </>
         </div>

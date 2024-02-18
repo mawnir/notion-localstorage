@@ -3,6 +3,15 @@
         margin-top: 1.75em;
     }
 
+    a {
+        color: #5b128f;
+        font-weight: 700;
+    }
+
+    a:hover {
+        cursor: pointer;
+    }
+
     ul,
     ol {
         padding: 0 1rem;
@@ -219,4 +228,13 @@
             opacity: 1;
         }
     }
+}
+
+
+.tiptap p.is-empty::before {
+    color: #adb5bd;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
 }
