@@ -2,12 +2,7 @@ import { MenuIcon } from "lucide-react";
 import Title from "./Title";
 import Favorite from "./Favorite";
 import Menu from "./Menu";
-
-
-// import { Banner } from "./banner";
-// import { Menu } from "./menu";
-// import { Publish } from "./publish";
-// import { Favorite } from "./favorite";
+import WordCount from "./WordCount";
 
 interface NavbarProps {
     isCollapsed: boolean;
@@ -48,15 +43,12 @@ export const Navbar = ({
                     <Title />
                     <div className="flex items-center gap-x-2">
                         {/* <Publish initialData={data} /> */}
+                        <WordCount />
                         <Favorite />
                         <Menu />
                     </div>
                 </div>
             </nav>
-
-            {/* {data && data?.isArchived && (
-        <Banner initialData={data} />
-      )} */}
         </>
     )
 }
