@@ -32,7 +32,7 @@ const TrashBox = () => {
         };
 
         const updated = updateTodoById(data, id, payload);
-        if (updated) {
+        if (await updated) {
             setData(data);
         }
     }
