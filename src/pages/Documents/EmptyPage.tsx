@@ -6,6 +6,7 @@ import { useSimpleTree } from "@/lib/use-simple-tree";
 import useNoteStore from "@/hooks/use-notes";
 import { noteType } from "@/type";
 import { useEffect } from "react";
+import { supabase } from "@/lib/supabase-client";
 
 const EmptyPage = () => {
 
@@ -26,6 +27,14 @@ const EmptyPage = () => {
         };
         setData([newFolder, ...data]);
         setId(newFolder.id);
+
+        const { error } = await supabase.from("notion_local")
+            .insert({
+                id: newFolder.id, name: newFolder.name, icon: newFolder.icon,
+                isFavorite: newFolder.isFavorite, isArchived: newFolder.isArchived,
+                parentId: newFolder.parentId
+            });
+
     }
 
     useEffect(() => {

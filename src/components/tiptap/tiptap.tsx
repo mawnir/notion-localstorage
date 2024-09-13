@@ -1,4 +1,3 @@
-
 import { FloatingMenu, useEditor, BubbleMenu, EditorContent, Content } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import TextDirection from "tiptap-text-direction";
@@ -12,7 +11,7 @@ import { Color } from "@tiptap/extension-color";
 import { TextStyle } from "@tiptap/extension-text-style";
 import { Highlight } from "@tiptap/extension-highlight";
 
-export const Tiptap = ({ setDescription, tipDefault }: { setDescription: any, tipDefault: string | undefined }) => {
+export const Tiptap = ({ setDescription, tipDefault, editable = true }: { setDescription: any, tipDefault: string | undefined, editable?: boolean }) => {
 
     const editor = useEditor({
         extensions: [
@@ -37,6 +36,7 @@ export const Tiptap = ({ setDescription, tipDefault }: { setDescription: any, ti
             const html = editor.getHTML();
             setDescription(html);
         },
+        editable,
     })
 
     useEffect(() => {
@@ -46,12 +46,16 @@ export const Tiptap = ({ setDescription, tipDefault }: { setDescription: any, ti
         }
     }, [tipDefault, editor]);
 
+    useEffect(() => {
+        editor?.setEditable(editable);
+    }, [editable, editor]);
+
     //Bubble and slash from https://slash.imyuanli.cn/
 
     return (
         <div className="mt-6 mx-16">
             <>
-                <Bubble editor={editor} />
+                {editable && <Bubble editor={editor} />}
                 <EditorContent editor={editor} />
             </>
         </div>

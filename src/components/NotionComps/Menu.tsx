@@ -1,4 +1,5 @@
-import { MoreHorizontal, Trash, WrapText } from "lucide-react";
+import { useState } from "react";
+import { MoreHorizontal, Trash, WrapText, History } from "lucide-react";
 
 import {
     DropdownMenu,
@@ -11,17 +12,26 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRTL } from "@/hooks/use-rtl";
 import useNoteStore from "@/hooks/use-notes";
-import { updateTodoById } from "@/lib/DBTools";
+import { updateTodoById, getVersionHistory } from "@/lib/DBTools";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import NoteVersionHistory from "./NoteVersionHistory";
+
+type NoteVersion = {
+    id: string;
+    content: string;
+    updated_at: string;
+    note_id: string;
+};
 
 const Menu = () => {
-
+    const [isVersionHistoryOpen, setIsVersionHistoryOpen] = useState(false);
+    const [versionHistory, setVersionHistory] = useState<NoteVersion[]>([]);
     const { toggleRTL } = useRTL();
     const { id, data, setData } = useNoteStore();
 
     const onArchive = async () => {
         const payload = {
             isArchived: true,
-            //   name: 'A whole new description.',
         };
 
         const updated = updateTodoById(data, id, payload);
@@ -30,36 +40,53 @@ const Menu = () => {
         }
     }
 
+    const onVersionHistory = async () => {
+        const history = await getVersionHistory(id);
+        setVersionHistory(history);
+        setIsVersionHistoryOpen(true);
+    };
+
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button size="sm" variant="ghost">
-                    <MoreHorizontal className="h-4 w-4" />
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-                className="w-60"
-                align="end"
-                alignOffset={8}
-                forceMount
-            >
-                <DropdownMenuItem onClick={onArchive}>
-                    <Trash className="h-4 w-4 mr-2" />
-                    Delete
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={toggleRTL}>
-                    <WrapText className="h-4 w-4 mr-2" />
-                    Text Direction
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <div className="text-xs text-muted-foreground p-2">
-                    Last edited by: Mawnir
-                </div>
-            </DropdownMenuContent>
-        </DropdownMenu>
+        <>
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button size="sm" variant="ghost">
+                        <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                    className="w-60"
+                    align="end"
+                    alignOffset={8}
+                    forceMount
+                >
+                    <DropdownMenuItem onClick={onArchive}>
+                        <Trash className="h-4 w-4 mr-2" />
+                        Delete
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={toggleRTL}>
+                        <WrapText className="h-4 w-4 mr-2" />
+                        Text Direction
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={onVersionHistory}>
+                        <History className="h-4 w-4 mr-2" />
+                        Version History
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <div className="text-xs text-muted-foreground p-2">
+                        Last edited by: Mawnir
+                    </div>
+                </DropdownMenuContent>
+            </DropdownMenu>
+            <NoteVersionHistory
+                isOpen={isVersionHistoryOpen}
+                onClose={() => setIsVersionHistoryOpen(false)}
+                versionHistory={versionHistory}
+            />
+        </>
     );
 }
-
 
 Menu.Skeleton = function MenuSkeleton() {
     return (
