@@ -6,6 +6,7 @@ import './index.css'
 import Layout from './pages/Layout';
 import Home from './pages/Home';
 import Documents from './pages/Documents';
+import Dashboard from './pages/Dashboard';
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="documents" element={<Documents />} />
+          <Route path="dashboard" element={<Dashboard />} />
           {/* <Route path="vscode" element={<Vscode />} /> */}
 
         </Route>
