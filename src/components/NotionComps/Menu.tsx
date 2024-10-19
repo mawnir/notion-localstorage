@@ -41,7 +41,26 @@ const Menu = () => {
     }
 
     const onVersionHistory = async () => {
-        const history = await getVersionHistory(id);
+        const history: NoteVersion[] = [
+            {
+                id: "UHLaxSXJ4uhhLPYsirf_p_1", // Updated to unique ID
+                content: `<p>Dummy Data</p><p></p>`, // Valid HTML content
+                updated_at: "2023-10-01T10:00:00Z",
+                note_id: "UHLaxSXJ4uhhLPYsirf_p"
+            },
+            {
+                id: "UHLaxSXJ4uhhLPYsirf_p_2", // Updated to unique ID
+                content: `<p>Dummy Content with some corrections.</p>`, // Updated to valid HTML
+                updated_at: "2023-10-02T12:30:00Z",
+                note_id: "UHLaxSXJ4uhhLPYsirf_p"
+            },
+            {
+                id: "UHLaxSXJ4uhhLPYsirf_p_3", // Updated to unique ID
+                content: `<p>Dummy Last version after review.</p>`, // Updated to valid HTML
+                updated_at: "2023-10-03T15:45:00Z",
+                note_id: "UHLaxSXJ4uhhLPYsirf_p"
+            }
+        ];
         setVersionHistory(history);
         setIsVersionHistoryOpen(true);
     };

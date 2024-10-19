@@ -1,6 +1,5 @@
 import useNoteStore from "@/hooks/use-notes";
 import { noteType } from "@/type";
-import { supabase } from "./supabase-client";
 
 export function findTodoById(id: string) {
     const { data } = useNoteStore();
@@ -91,65 +90,21 @@ export function pushObjectById(data: noteType[], parentId: string | null, object
     }
     return null; // Return null if parentId is not found
 }
-
-export async function updateTodoById(testData: any[], id: string, updatedFields: any): Promise<boolean> {
+export function updateTodoById(testData: any[], id: string, updatedFields: any): boolean {
     for (const item of testData) {
         if (item.id === id) {
-            // Store the current state before updating
-            const currentState = { ...item };
-
+            // Update each field in the updatedFields object
             for (const field in updatedFields) {
                 if (updatedFields.hasOwnProperty(field)) {
                     item[field] = updatedFields[field];
                 }
             }
-
-            // Update the main table
-            const { data, error } = await supabase
-                .from("notion_local")
-                .update(updatedFields)
-                .eq('id', id)
-                .select();
-
-            if (error) {
-                console.error("Error updating notion_local:", error);
-                return false;
-            }
-            console.log("updatedFieldsssss", id);
-
-            // Add a new entry to the version history table every 5 minutes
-            const lastHistoryEntry = await supabase
-                .from("notion_local_notes_history")
-                .select("updated_at")
-                .eq('note_id', id)
-                .order('updated_at', { ascending: false })
-                .limit(1)
-                .single();
-
-            const currentTime = new Date();
-            const fiveMinutesAgo = new Date(currentTime.getTime() - 1 * 60 * 1000);
-
-            if (!lastHistoryEntry.data || new Date(lastHistoryEntry.data.updated_at) < fiveMinutesAgo) {
-                const { data: historyData, error: historyError } = await supabase
-                    .from("notion_local_notes_history")
-                    .insert({
-                        note_id: id,
-                        content: JSON.stringify(currentState.body),
-                        updated_at: currentTime.toISOString()
-                    });
-
-                if (historyError) {
-                    console.error("Error adding to version history:", historyError);
-                    return false;
-                }
-            }
-
-            return true; // Return true if both updates are successful
+            return true; // Return true if the update is successful
         }
 
         // Recursively search in children if present
         if (item.children && item.children.length > 0) {
-            if (await updateTodoById(item.children, id, updatedFields)) {
+            if (updateTodoById(item.children, id, updatedFields)) {
                 return true; // Return true if the update is successful
             }
         }
@@ -208,16 +163,16 @@ export function flattenArrayWithChildren(arr: noteType[], parentId: string = '')
 }
 
 export const getVersionHistory = async (noteId: string) => {
-    const { data, error } = await supabase
-        .from('notion_local_notes_history')
-        .select('*')
-        .eq('note_id', noteId)
-        .order('created_at', { ascending: false });
+    // const { data, error } = await supabase
+    //     .from('notion_local_notes_history')
+    //     .select('*')
+    //     .eq('note_id', noteId)
+    //     .order('created_at', { ascending: false });
 
-    if (error) {
-        console.error('Error fetching version history:', error);
-        return [];
-    }
+    // if (error) {
+    //     console.error('Error fetching version history:', error);
+    //     return [];
+    // }
 
-    return data || [];
+    // return data || [];
 };

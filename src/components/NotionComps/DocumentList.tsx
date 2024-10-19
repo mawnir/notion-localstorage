@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { nanoid } from "nanoid";
 import { filterNonArchivedTodos, pushObjectById, updateTodoById } from "@/lib/DBTools";
-import { supabase } from "@/lib/supabase-client";
 
 const DocumentList = () => {
 
@@ -145,12 +144,12 @@ function Node({ node, style, dragHandle }: NodeRendererProps<noteType>) {
         }
         setId(newFolder.id);
 
-        const { error } = await supabase.from("notion_local")
-            .insert({
-                id: newFolder.id, name: newFolder.name, icon: newFolder.icon,
-                isFavorite: newFolder.isFavorite, isArchived: newFolder.isArchived,
-                parentId: newFolder.parentId
-            });
+        // const { error } = await supabase.from("notion_local")
+        //     .insert({
+        //         id: newFolder.id, name: newFolder.name, icon: newFolder.icon,
+        //         isFavorite: newFolder.isFavorite, isArchived: newFolder.isArchived,
+        //         parentId: newFolder.parentId
+        //     });
     };
 
     return (
