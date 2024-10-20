@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/sidebar"
 import { useSettings } from "@/hooks/use-settings";
 import { useSearch } from "@/hooks/use-search";
+import { ModeToggle } from "./HomeComps/ModeToggle";
 
 export function NavMain() {
 
@@ -65,6 +66,7 @@ export function NavMain() {
           </a>
         </SidebarMenuButton>
       </SidebarMenuItem>
+      {/* <ModeToggle /> */}
 
     </SidebarMenu>
   )
