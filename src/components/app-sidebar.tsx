@@ -56,16 +56,15 @@ const data = {
       icon: Sparkles,
     },
     {
+      title: "Settings",
+      url: "#",
+      icon: Settings2,
+    },
+    {
       title: "Home",
       url: "#",
       icon: Home,
       isActive: true,
-    },
-    {
-      title: "Inbox",
-      url: "#",
-      icon: Inbox,
-      badge: "10",
     },
   ],
   navSecondary: [
@@ -261,7 +260,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     <Sidebar className="border-r-0" {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
-        <NavMain items={data.navMain} />
+        <NavMain />
       </SidebarHeader>
       <SidebarContent>
         <NavFavorites favorites={data.favorites} />
