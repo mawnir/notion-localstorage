@@ -1,15 +1,8 @@
 import {
-  AudioWaveform,
-  Blocks,
-  Calendar,
-  Command,
-  Home,
-  Inbox,
-  MessageCircleQuestion,
+  PlusCircle,
   Search,
   Settings2,
   Sparkles,
-  Trash2,
 } from "lucide-react"
 import {
   SidebarMenu,
@@ -19,13 +12,28 @@ import {
 import { useSettings } from "@/hooks/use-settings";
 import { useSearch } from "@/hooks/use-search";
 import { ModeToggle } from "./HomeComps/ModeToggle";
+import { nanoid } from "nanoid";
+import useNoteStore from "@/hooks/use-notes";
 
 export function NavMain() {
-
+  const { id, data, setData, setId } = useNoteStore();
   const settings = useSettings();
   const search = useSearch();
-  const handleHomeClick = () => {
-    console.log('Home button clicked');
+
+  const handleAddPage = () => {
+    console.log(' clicked');
+    const newFolder = {
+      id: nanoid(),
+      name: "Untitled",
+      body: "",
+      parentId: "",
+      icon: "📄",
+      isFavorite: false,
+      isArchived: false,
+      children: []
+    };
+    setData([newFolder, ...data]);
+    setId(newFolder.id);
   };
 
   return (
@@ -59,10 +67,10 @@ export function NavMain() {
       </SidebarMenuItem>
 
       <SidebarMenuItem key='Home'>
-        <SidebarMenuButton asChild isActive={false} onClick={() => handleHomeClick()}  >
+        <SidebarMenuButton asChild isActive={false} onClick={() => handleAddPage()}  >
           <a href={'#'}>
-            <Home />
-            <span>Home</span>
+            <PlusCircle />
+            <span>Add Page</span>
           </a>
         </SidebarMenuButton>
       </SidebarMenuItem>

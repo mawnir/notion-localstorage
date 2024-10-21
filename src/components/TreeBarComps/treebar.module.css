@@ -35,35 +35,34 @@
 }
 
 .node:global(.isSelected) {
-    background: #eaeaea;
+    background: #f0f0f0;
     font-weight: 500;
 }
 
 .node:hover {
-    background: #eaeaea;
+    background: #F3F3F5;
+
 }
 
 
 .node {
-    color: #737373;
+    color: #3f3f46;
     margin-left: 4px;
     display: flex;
     align-items: center;
     white-space: nowrap;
-
     margin: 0 0px 0 0px;
     height: 100%;
     line-height: 20px;
-
 }
 
 /* Dropdown arrow */
 .node span:nth-child(1) {
     width: 16px;
     display: flex;
-    color: #b4b4b4;
+    color: #767676;
     margin-right: -1px;
-    margin-left: 8px;
+    margin-left: 0px;
 }
 
 /* Icon */
@@ -71,7 +70,8 @@
     margin-right: 18px;
     display: flex;
     align-items: center;
-    font-size: 20px;
+    font-size: 8px;
+    line-height: 1.25rem;
 }
 
 /* Name */
